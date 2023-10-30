@@ -5,6 +5,7 @@
         "ethers": "npm:ethers@6.8.0",
         "ethereum-deposit": "npm:@restake/ethereum-deposit@0.0.0-experimental-a78cf73f6b7203374e9c5defd423312c3036777c",
         "ethereumjs-wallet": "npm:ethereumjs-wallet@1.0.2",
+        "cliffy/": "https://deno.land/x/cliffy@v1.0.0-rc.3/",
         "$std/": "https://deno.land/std@0.204.0/"
     },
     "fmt": {
