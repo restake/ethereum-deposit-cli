@@ -1,6 +1,6 @@
 import { VAULT_AUTH_TYPE, VaultAuthentication, VaultClient, VaultTokenCredentials } from "vault";
 
-import config from "./config.ts";
+import config from "../config.ts";
 
 let authentication: VaultAuthentication;
 
