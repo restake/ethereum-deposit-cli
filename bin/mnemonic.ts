@@ -1,12 +1,10 @@
-import { Mnemonic, randomBytes, Wallet } from "ethers";
+import { getNewMnemonic } from "../utils/crypto.ts";
 
 try {
-    const wallet = Wallet.fromPhrase(
-        Mnemonic.fromEntropy(randomBytes(32)).phrase,
-    );
-    console.log(wallet.mnemonic?.phrase);
+    const mnemonic = getNewMnemonic();
+    console.log(mnemonic.phrase);
 } catch (e) {
-    throw new Error("Unable to generate a mnemonic", {
+    throw new Error("Unable to obtain a new mnemonic", {
         cause: e,
     });
 }
