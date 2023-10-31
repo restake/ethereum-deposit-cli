@@ -1,6 +1,6 @@
-import { KeygenOptions, VaultOptions } from "./types.ts";
+import { KeygenOptions } from "./types.ts";
 
-export const generate = (keygenOptions: KeygenOptions, vaultOptions: VaultOptions): void => {
+export const generate = (keygenOptions: KeygenOptions): void => {
     // TODO: implement!
-    console.log(keygenOptions, vaultOptions);
+    console.log("Generating keys...");
 };
