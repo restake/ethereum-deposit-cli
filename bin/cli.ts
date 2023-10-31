@@ -3,8 +3,8 @@ import { command as createMnemonicCommand } from "./commands/mnemonic.ts";
 import { command as createValidatorsCommand } from "./commands/validators.ts";
 
 new Command()
-    .name("ethereum-onboarding")
-    .description("CLI tool for rapidly generating Ethereum validator keys")
+    .name("ethereum-deposit-cli")
+    .description("Secure key generation for deposits")
     .version("0.0.1")
     .action(function () {
         this.showHelp();

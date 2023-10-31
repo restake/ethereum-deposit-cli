@@ -1,7 +1,7 @@
 import { Command } from "cliffy/command/command.ts";
 import { ValidationError } from "cliffy/command/mod.ts";
 import { isAddress, Wallet } from "ethers";
-import { generate, KeygenOptions, VaultOptions } from "../../core/validators/mod.ts";
+import { generate } from "../../core/validators/mod.ts";
 
 export const command = new Command()
     .description("Create new Ethereum validator keys and deposit data")
@@ -13,6 +13,7 @@ export const command = new Command()
     .option("--storage-path [storagePath:string]", "Path used for storing mnemonics and deposit data", { default: "./storage" })
     .option("--vault-enabled [vaultEnabled:boolean]", "Enable Vault integration", { default: false })
     .option("--mnemonic <mnemonic:string>", "Use an exisiting mnemonic phrase")
+    .option("--network <network:string>", "Ethereum network to use", { default: "mainnet" })
     .option("--start-index <startIndex:number>", "Starting index for the validator keys", { default: 0 })
     .arguments("<numValidators:number> <withdrawalAddress:string>")
     .action((opts, numValidators, withdrawalAddress) => {
@@ -34,6 +35,7 @@ export const command = new Command()
             mnemonic: opts.mnemonic,
             startIndex: opts.startIndex,
             storagePath: opts.storagePath,
+            network: opts.network,
             numValidators,
             withdrawalAddress,
         }, {

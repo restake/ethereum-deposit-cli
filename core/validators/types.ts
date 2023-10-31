@@ -7,6 +7,7 @@ export type MnemonicStore = {
 export type KeygenOptions = {
     mnemonic: string | undefined;
     numValidators: number;
+    network: string;
     withdrawalAddress: string;
     startIndex: number;
     storagePath: string;
