@@ -1,7 +1,7 @@
 import { encodeHex } from "$std/encoding/hex.ts";
 import { resolve } from "$std/path/mod.ts";
 
-import { MnemonicStore } from "../core/validators/types.ts";
+import { MnemonicStore } from "../keygen/mod.ts";
 import { hash } from "./crypto.ts";
 
 import config from "../config.ts";

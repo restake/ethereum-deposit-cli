@@ -4,13 +4,13 @@ import { Command, ValidationError } from "cliffy/command/mod.ts";
 import { getOverviewTable, promptConfirm, promptMnemonic, promptPassword } from "./mod.ts";
 import { ALLOWED_LANGUAGES } from "../mnemonic/mod.ts";
 
-import { generate } from "../../../core/validators/mod.ts";
+import { generate } from "../../../keygen/mod.ts";
 
 export const command = new Command()
     .description("Create new Ethereum validator keys and deposit data")
     .option("--storage-path <storagePath:string>", "Path used for storing mnemonics and deposit data", { default: "./storage" })
     .option("--existing-mnemonic [existingMnemonic:boolean]", "Use an exisiting mnemonic phrase", { default: false })
-    .option("--language <language:string>", `Language to use for the mnemonic ${ALLOWED_LANGUAGES.join(", ")}`, { default: "en" })
+    .option("--language <language:string>", `Language to use for the mnemonic (${ALLOWED_LANGUAGES.join(", ")})`, { default: "en" })
     .option("--network <network:string>", "Ethereum network to use", { default: "mainnet" })
     .option("--start-index <startIndex:number>", "Starting index for the validator keys", { default: 0 })
     .arguments("<numValidators:number> <withdrawalAddress:string>")

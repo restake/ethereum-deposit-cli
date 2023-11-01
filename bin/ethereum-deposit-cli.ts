@@ -1,6 +1,6 @@
 import { Command } from "cliffy/command/mod.ts";
-import { mnemonicCommand } from "./commands/mnemonic/mod.ts";
-import { validatorsCommand } from "./commands/validator/mod.ts";
+import { mnemonicCommand } from "../cli/subcommands/mnemonic/mod.ts";
+import { validatorsCommand } from "../cli/subcommands/create_validators/mod.ts";
 
 new Command()
     .name("ethereum-deposit-cli")
