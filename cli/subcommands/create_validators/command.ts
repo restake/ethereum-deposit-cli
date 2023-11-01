@@ -15,6 +15,9 @@ export const command = new Command()
     .option("--start-index <startIndex:number>", "Starting index for the validator keys", { default: 0 })
     .arguments("<numValidators:number> <withdrawalAddress:string>")
     .action(async (options, numValidators, withdrawalAddress) => {
+        if (numValidators < 1) {
+            throw new ValidationError("You must create at least one validator");
+        }
         if (!isAddress(withdrawalAddress)) {
             throw new ValidationError("Invalid withdrawal address");
         }
