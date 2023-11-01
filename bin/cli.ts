@@ -1,6 +1,6 @@
 import { Command } from "cliffy/command/mod.ts";
-import { command as createMnemonicCommand } from "./commands/mnemonic.ts";
-import { command as createValidatorsCommand } from "./commands/validators.ts";
+import { mnemonicCommand } from "./commands/mnemonic/mod.ts";
+import { validatorsCommand } from "./commands/validator/mod.ts";
 
 new Command()
     .name("ethereum-deposit-cli")
@@ -9,6 +9,6 @@ new Command()
     .action(function () {
         this.showHelp();
     })
-    .command("mnemonic", createMnemonicCommand)
-    .command("create-validators", createValidatorsCommand)
+    .command("mnemonic", mnemonicCommand)
+    .command("create-validators", validatorsCommand)
     .parse(Deno.args);
