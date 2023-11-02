@@ -1,7 +1,7 @@
 import { toUtf8Bytes } from "ethers";
 import { getAes128CtrCipherModule, getChecksumModule, getEncryptionKey, getPbkdf2Module, Keystore, toHex } from "./mod.ts";
 
-export const create = async (
+export const createKeystore = async (
     password: string,
     secretKey: Uint8Array,
     publicKey: Uint8Array,
@@ -16,7 +16,7 @@ export const create = async (
     return {
         version: 4,
         uuid: crypto.randomUUID(),
-        description: description || undefined,
+        description: description || "",
         path: path,
         pubkey: toHex(publicKey),
         crypto: {
