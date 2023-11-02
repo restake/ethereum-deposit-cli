@@ -1,7 +1,7 @@
 import { isAddress } from "ethers";
 import { Command, ValidationError } from "cliffy/command/mod.ts";
 
-import { getOverviewTable, promptConfirm, promptMnemonic, promptPassword, ALLOWED_NETWORKS } from "./mod.ts";
+import { ALLOWED_NETWORKS, getOverviewTable, promptConfirm, promptMnemonic, promptPassword } from "./mod.ts";
 import { ALLOWED_LANGUAGES } from "../mnemonic/mod.ts";
 
 import { generate } from "../../../keygen/mod.ts";
