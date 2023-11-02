@@ -1,11 +1,5 @@
-export type MnemonicStore = {
-    mnemonic: string;
-    numValidators: number;
-    startIndex: number;
-};
-
 export type KeygenOptions = {
-    mnemonic: string | undefined;
+    mnemonic: string;
     password: string;
     numValidators: number;
     language: string;
