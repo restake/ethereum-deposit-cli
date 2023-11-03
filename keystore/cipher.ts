@@ -1,5 +1,4 @@
-import { randomBytes } from "ethers";
-import { Aes128CtrCipherModule, toHex } from "./mod.ts";
+import { Aes128CtrCipherModule, randomBytes, toHex } from "./mod.ts";
 
 export const getAes128CtrCipherModule = async (encryptionKey: Uint8Array, secretKey: Uint8Array): Promise<Aes128CtrCipherModule> => {
     return {
@@ -33,4 +32,24 @@ export const cipherEncrypt = async (key: Uint8Array, data: Uint8Array, iv: Uint8
     return new Uint8Array(encrypted);
 };
 
-// TODO: implement decrypt
+export const cipherDecrypt = async (key: Uint8Array, data: Uint8Array, iv: Uint8Array): Promise<Uint8Array> => {
+    const cipherKey = await crypto.subtle.importKey(
+        "raw",
+        key,
+        { name: "AES-CTR", length: 128 },
+        false,
+        ["decrypt"],
+    );
+
+    const decrypted = await crypto.subtle.decrypt(
+        {
+            name: "AES-CTR",
+            counter: iv,
+            length: 128
+        },
+        cipherKey,
+        data
+    );
+
+    return new Uint8Array(decrypted);
+};

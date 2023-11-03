@@ -20,3 +20,7 @@ export const equalBytes = (a: Uint8Array, b: Uint8Array): boolean => {
 export const toHex = (bytes: Uint8Array): string => {
     return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
 };
+
+export const randomBytes = (count: number): Uint8Array => {
+    return crypto.getRandomValues(new Uint8Array(count));
+};
