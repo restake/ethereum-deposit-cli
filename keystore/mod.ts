@@ -4,3 +4,4 @@ export * from "./utils.ts";
 export * from "./cipher.ts";
 export * from "./checksum.ts";
 export * from "./store.ts";
+export * from "./password.ts";

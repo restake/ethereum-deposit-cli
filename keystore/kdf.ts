@@ -1,5 +1,6 @@
-import { randomBytes, toUtf8Bytes } from "ethers";
-import { Pbkdf2Module, Pbkdf2Parameters, toHex } from "./mod.ts";
+import { toUtf8Bytes } from "ethers";
+import { Pbkdf2Module, Pbkdf2Parameters, randomBytes, toHex } from "./mod.ts";
+import { getNormalizedPassword } from "./password.ts";
 
 const PBKDF2_PARAMS = {
     dklen: 32,
@@ -19,9 +20,10 @@ export const getPbkdf2Module = (): Pbkdf2Module => {
 };
 
 const getBaseKey = async (password: string): Promise<CryptoKey> => {
+    const normalizedPassword = getNormalizedPassword(password);
     return await crypto.subtle.importKey(
         "raw",
-        toUtf8Bytes(password),
+        normalizedPassword,
         { name: "PBKDF2" },
         false,
         ["deriveBits", "deriveKey"],
