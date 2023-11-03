@@ -45,10 +45,10 @@ export const cipherDecrypt = async (key: Uint8Array, data: Uint8Array, iv: Uint8
         {
             name: "AES-CTR",
             counter: iv,
-            length: 128
+            length: 128,
         },
         cipherKey,
-        data
+        data,
     );
 
     return new Uint8Array(decrypted);

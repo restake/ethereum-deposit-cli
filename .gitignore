@@ -164,3 +164,4 @@ tramp
 
 # Project specific files
 storage/*json
+coverage

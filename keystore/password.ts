@@ -1,8 +1,8 @@
-import { toUtf8Bytes } from "ethers";
-
 export const getNormalizedPassword = (password: string): Uint8Array => {
-    const normalized = password.normalize("NFKD").split("").filter(char => getControlCodeFilter(char.charCodeAt(0))).join("");
-    return toUtf8Bytes(normalized);
+    const encoder = new TextEncoder();
+    const normalized = password.normalize("NFKD").split("").filter((char) => getControlCodeFilter(char.charCodeAt(0))).join("");
+
+    return encoder.encode(normalized);
 };
 
 const getControlCodeFilter = (char: number): boolean => {

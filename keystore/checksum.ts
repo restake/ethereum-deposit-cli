@@ -1,6 +1,5 @@
-import { concatBytes, equalBytes, Sha256ChecksumModule, toHex } from "./mod.ts";
+import { concatBytes, equalBytes, hexToBytes, Sha256ChecksumModule, toHex } from "./mod.ts";
 import { hash } from "../utils/mod.ts";
-import { toUtf8Bytes } from "ethers";
 
 export const getChecksumModule = async (encryptionKey: Uint8Array, cipherText: Uint8Array): Promise<Sha256ChecksumModule> => {
     const checksum = await getChecksum(encryptionKey, cipherText);
@@ -20,6 +19,7 @@ export const getChecksum = async (key: Uint8Array, cipherText: Uint8Array): Prom
 };
 
 export const verifyChecksum = async (mod: Sha256ChecksumModule, key: Uint8Array, cipherText: Uint8Array): Promise<boolean> => {
-    const expectedChecksum = await hash(getChecksumData(key, cipherText));
-    return equalBytes(toUtf8Bytes(mod.message), expectedChecksum);
+    const expectedChecksumAsHex = toHex(await hash(getChecksumData(key, cipherText)));
+
+    return equalBytes(hexToBytes(mod.message), hexToBytes(expectedChecksumAsHex));
 };

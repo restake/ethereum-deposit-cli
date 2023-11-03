@@ -5,3 +5,4 @@ export * from "./cipher.ts";
 export * from "./checksum.ts";
 export * from "./store.ts";
 export * from "./password.ts";
+export * from "./verification.ts";

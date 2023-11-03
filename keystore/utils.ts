@@ -24,3 +24,11 @@ export const toHex = (bytes: Uint8Array): string => {
 export const randomBytes = (count: number): Uint8Array => {
     return crypto.getRandomValues(new Uint8Array(count));
 };
+
+export const hexToBytes = (hex: string): Uint8Array => {
+    const bytes = new Uint8Array(Math.ceil(hex.length / 2));
+    for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = parseInt(hex.substring(i * 2, i * 2 + 2), 16);
+    }
+    return bytes;
+};
