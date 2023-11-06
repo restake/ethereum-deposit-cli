@@ -37,7 +37,7 @@ export const createKeystore = async (
     };
 };
 
-export const decrypt = async (keystore: Keystore, password: string): Promise<Uint8Array> => {
+export const decryptKeystore = async (keystore: Keystore, password: string): Promise<Uint8Array> => {
     const decryptionKey = await getKdfKey(keystore.crypto.kdf.params, getNormalizedPassword(password));
     const cipherText = hexToBytes(keystore.crypto.cipher.message);
 

@@ -4,7 +4,7 @@ import { Command, ValidationError } from "cliffy/command/mod.ts";
 import { ALLOWED_NETWORKS, getOverviewTable, promptConfirm, promptMnemonic, promptPassword } from "./mod.ts";
 import { ALLOWED_LANGUAGES } from "../mnemonic/mod.ts";
 
-import { generate } from "../../../keygen/mod.ts";
+import { generateCredentials, saveSigningKeystores, verifySigningKeystores } from "../../../keygen/mod.ts";
 
 export const command = new Command()
     .description("Create new Ethereum validator keys and deposit data")
@@ -39,6 +39,20 @@ export const command = new Command()
         };
         // Clear the screen and show an overview for the user to confirm.
         getOverviewTable(keygenOptions).then(promptConfirm).then(() => {
-            generate(keygenOptions);
+            console.log("Generating validator credentials...");
+            return generateCredentials(keygenOptions);
+        }).then((keystores) => {
+            console.log(`${keystores.length} credentials successfully generated!`);
+            console.log("Saving keystores...");
+            saveSigningKeystores(keystores, keygenOptions.storagePath);
+            console.log("Keystores saved successfully!");
+            console.log("Verifying keystores...");
+            verifySigningKeystores(keygenOptions.storagePath, keygenOptions.password).then((verified) => {
+                if (!verified) {
+                    console.log("Keystores verification failed!");
+                    return;
+                }
+                console.log("Keystores successfully verified!");
+            });
         });
     });

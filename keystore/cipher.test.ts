@@ -2,7 +2,7 @@ import { assert, assertEquals } from "$std/assert/mod.ts";
 import { resolve } from "$std/path/mod.ts";
 
 import { hexToBytes, verifyPassword } from "./mod.ts";
-import { decrypt } from "./store.ts";
+import { decryptKeystore } from "./store.ts";
 
 Deno.test("PBKDF2", async (t) => {
     await t.step("Should be able to encrypt and decrypt PBKDF2 keystores", async () => {
@@ -15,7 +15,7 @@ Deno.test("PBKDF2", async (t) => {
             const secret = hexToBytes(keystore.secret.slice(2));
 
             assert(await verifyPassword(keystore, password));
-            assertEquals(await decrypt(keystore, password), secret);
+            assertEquals(await decryptKeystore(keystore, password), secret);
         }
     });
 });
