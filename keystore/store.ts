@@ -24,16 +24,16 @@ export const createKeystore = async (
     const checksumModule = await getChecksumModule(encryptionKey, hexToBytes(cipherModule.message));
 
     return {
-        version: 4,
-        uuid: crypto.randomUUID(),
-        description: description || "",
-        path: path,
-        pubkey: toHex(publicKey),
         crypto: {
             kdf: kdfModule,
             checksum: checksumModule,
             cipher: cipherModule,
         },
+        description: description || "",
+        path: path,
+        pubkey: toHex(publicKey),
+        uuid: crypto.randomUUID(),
+        version: 4,
     };
 };
 

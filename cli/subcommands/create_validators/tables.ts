@@ -1,6 +1,7 @@
 import { Table } from "cliffy/table/table.ts";
-import { KeygenOptions } from "../../../keygen/types.ts";
-import { eraseScreen } from "../../utils/tty.ts";
+
+import { KeygenOptions } from "../../../keygen/mod.ts";
+import { eraseScreen } from "../../utils/mod.ts";
 
 export const getOverviewTable = (keygenOptions: KeygenOptions): Promise<void> => {
     const table = new Table(
