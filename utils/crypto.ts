@@ -6,7 +6,7 @@
  * @param algo
  * @returns Uint8Array
  */
-export const hash = async <T extends string | Uint8Array>(data: T, algo = "SHA-256"): Promise<Uint8Array> => {
+export const digest = async <T extends string | Uint8Array>(data: T, algo = "SHA-256"): Promise<Uint8Array> => {
     const dataBytes = data instanceof Uint8Array ? data : new TextEncoder().encode(data);
     const digest = await crypto.subtle.digest(
         algo,

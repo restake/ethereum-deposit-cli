@@ -27,7 +27,7 @@ const getBaseKey = async (password: Uint8Array): Promise<CryptoKey> => {
     );
 };
 
-export const getEncryptionKey = async (params: Pbkdf2Parameters, password: Uint8Array): Promise<Uint8Array> => {
+export const getKdfKey = async (params: Pbkdf2Parameters, password: Uint8Array): Promise<Uint8Array> => {
     const baseKey = await getBaseKey(password);
     const encryptionKey = await crypto.subtle.deriveBits(
         {

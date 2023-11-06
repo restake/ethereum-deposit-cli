@@ -2,7 +2,7 @@ import { cipherDecrypt } from "./cipher.ts";
 import {
     getAes128CtrCipherModule,
     getChecksumModule,
-    getEncryptionKey,
+    getKdfKey,
     getPbkdf2Module,
     hexToBytes,
     Keystore,
@@ -19,7 +19,7 @@ export const createKeystore = async (
     description: string | null = null,
 ): Promise<Keystore> => {
     const kdfModule = getPbkdf2Module();
-    const encryptionKey = await getEncryptionKey(kdfModule.params, getNormalizedPassword(password));
+    const encryptionKey = await getKdfKey(kdfModule.params, getNormalizedPassword(password));
     const cipherModule = await getAes128CtrCipherModule(encryptionKey, secretKey);
     const checksumModule = await getChecksumModule(encryptionKey, hexToBytes(cipherModule.message));
 
@@ -38,7 +38,7 @@ export const createKeystore = async (
 };
 
 export const decrypt = async (keystore: Keystore, password: string): Promise<Uint8Array> => {
-    const decryptionKey = await getEncryptionKey(keystore.crypto.kdf.params, getNormalizedPassword(password));
+    const decryptionKey = await getKdfKey(keystore.crypto.kdf.params, getNormalizedPassword(password));
     const cipherText = hexToBytes(keystore.crypto.cipher.message);
 
     if (!(await verifyChecksum(keystore.crypto.checksum, decryptionKey, cipherText))) {
