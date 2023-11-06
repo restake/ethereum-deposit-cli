@@ -5,6 +5,7 @@ import { ALLOWED_NETWORKS, getOverviewTable, promptConfirm, promptMnemonic, prom
 import { ALLOWED_LANGUAGES } from "../mnemonic/mod.ts";
 
 import { generateCredentials, saveSigningKeystores, verifySigningKeystores } from "../../../keygen/mod.ts";
+import { error, info } from "../../utils/mod.ts";
 
 export const command = new Command()
     .description("Create new Ethereum validator keys and deposit data")
@@ -39,20 +40,22 @@ export const command = new Command()
         };
         // Clear the screen and show an overview for the user to confirm.
         getOverviewTable(keygenOptions).then(promptConfirm).then(() => {
-            console.log("Generating validator credentials...");
+            info("Generating validator credentials...");
             return generateCredentials(keygenOptions);
         }).then((keystores) => {
-            console.log(`${keystores.length} credentials successfully generated!`);
-            console.log("Saving keystores...");
+            info(`${keystores.length} credentials successfully generated!`);
+
+            info("Saving keystores...");
             saveSigningKeystores(keystores, keygenOptions.storagePath);
-            console.log("Keystores saved successfully!");
-            console.log("Verifying keystores...");
+            info("Keystores saved successfully!");
+
+            info("Verifying keystores...");
             verifySigningKeystores(keygenOptions.storagePath, keygenOptions.password).then((verified) => {
                 if (!verified) {
-                    console.log("Keystores verification failed!");
+                    error("Keystores verification failed!");
                     return;
                 }
-                console.log("Keystores successfully verified!");
+                info("Keystores successfully verified! 🎉");
             });
         });
     });
