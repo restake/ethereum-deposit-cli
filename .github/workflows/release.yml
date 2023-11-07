@@ -1,5 +1,5 @@
 ---
-name: Release
+name: "Release"
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
         run: |
           targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-msvc x86_64-apple-darwin aarch64-apple-darwin)
           for target in "${targets[@]}"; do
-            deno compile --unstable -A --target "${target}" -o "./targets/ethereum-deposit-cli_${target}" ./bin/ethereum-deposit-cli.ts
+            deno compile --unstable --allow-read --allow-write --target "${target}" -o "./targets/ethereum-deposit-cli_${target}" ./bin/ethereum-deposit-cli.ts
           done
           sha256sum ./targets/ethereum-deposit-cli_* > ./targets/SHA256SUMS
 
