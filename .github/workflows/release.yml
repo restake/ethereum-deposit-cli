@@ -32,7 +32,7 @@ jobs:
           for target in "${targets[@]}"; do
             deno compile --unstable --allow-read --allow-write --target "${target}" -o "./targets/ethereum-deposit-cli_${target}" ./bin/ethereum-deposit-cli.ts
           done
-          sha256sum ./targets/ethereum-deposit-cli_* > ./targets/SHA256SUMS
+          cd targets && sha256sum ethereum-deposit-cli_* > SHA256SUMS
 
       - id: "upload_artifacts"
         name: "Upload artifacts"
