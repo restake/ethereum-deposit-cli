@@ -1,0 +1,115 @@
+---
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+permissions:
+  contents: "write"
+
+jobs:
+  build:
+    name: "build"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - id: "checkout"
+        name: "Checkout code"
+        uses: actions/checkout@v4
+
+      - id: "setup"
+        name: "Setup Deno"
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - id: "build"
+        name: "Build Deno binaries"
+        run: |
+          targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-msvc x86_64-apple-darwin aarch64-apple-darwin)
+          for target in "${targets[@]}"; do
+            deno compile --unstable -A --target "${target}" -o "./targets/ethereum-deposit-cli_${target}" ./bin/ethereum-deposit-cli.ts
+          done
+          sha256sum ./targets/ethereum-deposit-cli_* > ./targets/SHA256SUMS
+
+      - id: "upload_artifacts"
+        name: "Upload artifacts"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "targets"
+          path: |
+            ./targets/ethereum-deposit-cli_*
+            ./targets/SHA256SUMS
+
+  test:
+    name: "test"
+    needs: "build"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - id: "checkout"
+        name: "Checkout code"
+        uses: actions/checkout@v4
+
+      - id: "setup"
+        name: "Setup Deno"
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - id: "test"
+        name: "Run tests"
+        run: deno test -A
+
+  lint:
+    name: "lint"
+    needs: "build"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - id: "checkout"
+        name: "Checkout code"
+        uses: actions/checkout@v4
+
+      - id: "setup"
+        name: "Setup Deno"
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - id: "check_fmt"
+        name: "Verify formatting"
+        run: deno fmt --check
+
+      - id: "lint"
+        name: "Run linter"
+        run: deno lint
+
+  release:
+    name: "release"
+    needs:
+      - build
+      - test
+      - lint
+    runs-on: "ubuntu-latest"
+    steps:
+      - id: "download_artifacts"
+        name: "Download artifacts"
+        uses: actions/download-artifact@v2
+        with:
+          name: "targets"
+          path: "./targets"
+
+      - id: "create_release"
+        name: "Create release"
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          files: |
+            ./targets/SHA256SUMS
+            ./targets/ethereum-deposit-cli_*
