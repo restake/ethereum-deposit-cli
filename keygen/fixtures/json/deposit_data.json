@@ -1,0 +1,32 @@
+[
+    {
+        "pubkey": "ad69839490342fc034416474e5b249bb52cd39c5ee7ee65a249f86b3674f1dd7e4d23a3201e414aa11180af46449cef5",
+        "withdrawal_credentials": "01000000000000000000000005474dd4248e67ecca048e44a500aca44d434f95",
+        "amount": 32000000000,
+        "signature": "b4e7a9f4233dca420dd26c3af4f47a3f1a22761ff417eace3b43e243e65534c558e4d5af979c5b22c792719ab914a772191de579d0a566d99c0393fe4b18decf9c3c4fa679d13475642b10eee5f33c0ed0e2f5abda9417abefca0f46d91c04d6",
+        "deposit_message_root": "3e2a413a4892d936421047c4a8078f23d7430ce12a2da3d9a8f91a9939e87c2d",
+        "deposit_data_root": "9b1075320fe68692ea283fc23646b6161745216f4b8d78f33e16c66d758b3c7d",
+        "fork_version": "00000000",
+        "network_name": "mainnet"
+    },
+    {
+        "pubkey": "996cf319007837edfdaf594a16ded423b1c80d46ea33e963a34131f5b4af0e8cb486c674d00d4f38fa9c0c5d5e5e3769",
+        "withdrawal_credentials": "01000000000000000000000005474dd4248e67ecca048e44a500aca44d434f95",
+        "amount": 32000000000,
+        "signature": "af4c87700b561063319ac944e64bc576c0ec982413db24902d9b24616c5174172cc36df7349fe62dc4b16f4e5c01da1d067d6d3ffad72393311963bd57e5a281225b17c679c6ed23f554271c25e5cc75bc932ecd7203b57b7b923cf3aa6ab6fa",
+        "deposit_message_root": "989a2b61a5348a6d45b47ab8f5caa6487e6e75275cf9349145922c44fb451c55",
+        "deposit_data_root": "2b067fb4674d9712a42581d00331384b1b6c1164d12ca1de6a6d99ad5e52875d",
+        "fork_version": "00000000",
+        "network_name": "mainnet"
+    },
+    {
+        "pubkey": "80c7b6724bfb879fc51535fd569ce47e6952e492b888d65d0acac5807715f5c84b6a103d33ae4fe7c221ed1accd339cc",
+        "withdrawal_credentials": "01000000000000000000000005474dd4248e67ecca048e44a500aca44d434f95",
+        "amount": 32000000000,
+        "signature": "ad0010108178928390883e00f73794e034f863f25933668991570b8a63e971315af1cb3b7c99573fa192094b1e4de88719276a8fd1f18f835058a501717cde1412f016caf28c8999f06cd11755bdd3e9830a3ed9d73cfe425e5b3a9caf605e1f",
+        "deposit_message_root": "ba4dfdd50f43d90c0d021163d2a4f9bee5081867f35890e19651181ab2a9dcbc",
+        "deposit_data_root": "371850440006927a943ae4d8f8169f3ab384d7bf3e65cc950ff4cd7e2d34318a",
+        "fork_version": "00000000",
+        "network_name": "mainnet"
+    }
+]
