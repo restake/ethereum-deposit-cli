@@ -61,7 +61,7 @@ jobs:
 
       - id: "test"
         name: "Run tests with coverage"
-        run: deno test -A --coverage="./coverage"
+        run: deno test -A --coverage="./coverage" ./**/mod.ts ./**/*.test.ts
 
       - id: "convert_coverage"
         name: "Convert coverage reports to Codecov format"
