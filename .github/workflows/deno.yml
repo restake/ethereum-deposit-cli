@@ -46,8 +46,15 @@ jobs:
           deno-version: v1.x
 
       - id: "test"
-        name: "Run tests"
-        run: deno test -A
+        name: "Run tests with coverage"
+        run: deno test -A --coverage="./coverage"
+
+      - id: "upload_coverage"
+        name: "Upload coverage reports to Codecov"
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
 
   lint:
     name: "lint"

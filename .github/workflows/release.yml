@@ -60,8 +60,8 @@ jobs:
           deno-version: v1.x
 
       - id: "test"
-        name: "Run tests"
-        run: deno test -A
+        name: "Run tests with coverage"
+        run: deno test -A --coverage="./coverage"
 
   lint:
     name: "lint"
