@@ -3,7 +3,7 @@
         "vault": "https://raw.githubusercontent.com/restake/deno-hashicorp-vault/4e4bb2137be909a7abeb1d6d0eb45e8dcd644fdb/mod.ts",
         "zod": "https://deno.land/x/zod@v3.21.4/mod.ts",
         "ethers": "npm:ethers@6.8.0",
-        "ethereum-deposit": "npm:@restake/ethereum-deposit@0.0.0-experimental-15b2a2a9d167827a79e275169b186b22d4b6970c",
+        "ethereum-deposit": "npm:@restake/ethereum-deposit@0.0.0-experimental-ab8d4e34cc09442534f711b015c80456266f17c1",
         "ethereumjs-wallet": "npm:ethereumjs-wallet@1.0.2",
         "cliffy/": "https://deno.land/x/cliffy@v1.0.0-rc.3/",
         "$std/": "https://deno.land/std@0.204.0/"
