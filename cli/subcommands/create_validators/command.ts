@@ -46,9 +46,9 @@ export const command = new Command()
             info(`${credentials.length} credentials successfully generated!`);
             info("Creating keystores...");
             return createKeystores(credentials, keygenOptions.password);
-        }).then((keystores) => {
+        }).then(async (keystores) => {
             info("Creating keystores...");
-            saveSigningKeystores(keystores, keygenOptions.storagePath);
+            await saveSigningKeystores(keystores, keygenOptions.storagePath);
             info("Keystores saved successfully!");
 
             info("Verifying keystores...");

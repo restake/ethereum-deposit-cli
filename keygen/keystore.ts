@@ -24,17 +24,18 @@ const getEncryptedSigningKeystore = async (credential: Credential, password: str
     );
 };
 
-export const saveSigningKeystores = (keystores: Keystore[], storagePath: string): void => {
+export const saveSigningKeystores = async (keystores: Keystore[], storagePath: string): Promise<void> => {
     const timestamp = Math.floor(Date.now() / 1000);
-    for (const keystore of keystores) {
+
+    await Promise.all(keystores.map(async (keystore) => {
         const filename = `keystore-${keystore.path.replace(/\//g, "-")}-${timestamp}.json`;
-        Deno.writeTextFileSync(
+        return await Deno.writeTextFile(
             `${resolve(storagePath)}/${filename}`,
             JSON.stringify(
                 keystore,
             ),
         );
-    }
+    }));
 };
 
 export const verifySigningKeystores = async (storagePath: string, password: string): Promise<boolean> => {

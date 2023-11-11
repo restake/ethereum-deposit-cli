@@ -20,7 +20,7 @@ Deno.test("Keystore", async (t) => {
         const storagePath = "./storage";
 
         const keystores = await createKeystores(credentialsFixture, keystorePassword);
-        saveSigningKeystores(keystores, storagePath);
+        await saveSigningKeystores(keystores, storagePath);
 
         assert(await verifySigningKeystores(storagePath, keystorePassword));
     });
