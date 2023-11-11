@@ -44,7 +44,7 @@ export const verifySigningKeystores = async (storagePath: string, password: stri
 
     for await (const keystoreFile of keystoreFiles) {
         if (keystoreFile.isFile && keystoreFile.name.endsWith(".json")) {
-            const keystore = JSON.parse(Deno.readTextFileSync(`${resolvedPath}/${keystoreFile.name}`));
+            const keystore = JSON.parse(await Deno.readTextFile(`${resolvedPath}/${keystoreFile.name}`));
             if (!await verifyPassword(keystore, password)) {
                 return false;
             }
