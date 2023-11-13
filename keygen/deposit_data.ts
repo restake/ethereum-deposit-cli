@@ -1,6 +1,6 @@
 import { CredentialList } from "ethereum-deposit";
 
-import { DepositData } from "./mod.ts";
+import { DepositData, SavedDepositData } from "./mod.ts";
 import { resolve } from "$std/path/mod.ts";
 
 export const getDepositData = (credentials: CredentialList): DepositData[] => {
@@ -12,7 +12,8 @@ export const getDepositData = (credentials: CredentialList): DepositData[] => {
     ));
 };
 
-export const saveDepositData = async (depositData: DepositData[], storagePath: string): Promise<string> => {
+export const saveDepositData = async (credentials: CredentialList, storagePath: string): Promise<SavedDepositData> => {
+    const depositData = getDepositData(credentials);
     const timestamp = Math.floor(Date.now() / 1000);
     const fileName = `deposit_data-${timestamp}.json`;
     try {
@@ -28,7 +29,10 @@ export const saveDepositData = async (depositData: DepositData[], storagePath: s
         });
     }
 
-    return fileName;
+    return {
+        depositData,
+        fileName,
+    };
 };
 
 export const verifyDepositData = async (storagePath: string, fileName: string, depositData: DepositData[]): Promise<boolean> => {
