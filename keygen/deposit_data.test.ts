@@ -1,4 +1,5 @@
-import { assertEquals } from "$std/assert/mod.ts";
+import { assertEquals, assertRejects } from "$std/assert/mod.ts";
+import { resolve } from "$std/path/mod.ts";
 
 import { DepositData, getDepositData, saveDepositData, verifyDepositData } from "./mod.ts";
 import { credentialsFixture, keygenOptionsFixture } from "./fixtures/ts/mod.ts";
@@ -11,8 +12,30 @@ Deno.test("DepositData", async (t) => {
     });
 
     await t.step("Should be able to save and verify deposit data files", async () => {
-        const fileName = await saveDepositData(depositDataFixture, keygenOptionsFixture.storagePath);
+        const depositData = getDepositData(credentialsFixture);
+        const fileName = await saveDepositData(depositData, keygenOptionsFixture.storagePath);
 
-        assertEquals(await verifyDepositData(keygenOptionsFixture.storagePath, fileName, depositDataFixture), true);
-    })
+        assertEquals(await verifyDepositData(keygenOptionsFixture.storagePath, fileName, depositData), true);
+    });
+
+    await t.step("Should throw an error when unable to save deposit data file", () => {
+        const depositData = getDepositData(credentialsFixture);
+        assertRejects(
+            () => saveDepositData(depositData, "/invalid/path/to/storage"),
+            Error,
+            "Unable to save deposit data file",
+        );
+    });
+
+    await t.step("Should throw an error when unable to verify deposit data file", async () => {
+        const depositData = getDepositData(credentialsFixture);
+        const fileName = await saveDepositData(depositData, keygenOptionsFixture.storagePath);
+        await Deno.remove(`${resolve(keygenOptionsFixture.storagePath)}/${fileName}`);
+
+        assertRejects(
+            () => verifyDepositData(keygenOptionsFixture.storagePath, fileName, depositData),
+            Error,
+            "Unable to read deposit data file",
+        );
+    });
 });
