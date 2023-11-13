@@ -4,7 +4,14 @@ import { Command, ValidationError } from "cliffy/command/mod.ts";
 import { ALLOWED_NETWORKS, getOverviewTable, promptConfirm, promptMnemonic, promptPassword } from "./mod.ts";
 import { ALLOWED_LANGUAGES } from "../mnemonic/mod.ts";
 
-import { createKeystores, generateCredentials, saveSigningKeystores, verifySigningKeystores } from "../../../keygen/mod.ts";
+import {
+    createKeystores,
+    generateCredentials,
+    saveDepositData,
+    saveSigningKeystores,
+    verifyDepositData,
+    verifySigningKeystores,
+} from "../../../keygen/mod.ts";
 import { error, info } from "../../utils/mod.ts";
 
 export const command = new Command()
@@ -42,12 +49,25 @@ export const command = new Command()
         getOverviewTable(keygenOptions).then(promptConfirm).then(() => {
             info("Generating validator credentials...");
             return generateCredentials(keygenOptions);
-        }).then((credentials) => {
+        }).then(async (credentials) => {
             info(`${credentials.length} credentials successfully generated!`);
+
+            info("Creating deposit data...");
+            const { depositData, fileName } = await saveDepositData(credentials, keygenOptions.storagePath);
+
+            verifyDepositData(keygenOptions.storagePath, fileName, depositData).then((verified) => {
+                if (!verified) {
+                    error("Deposit data verification failed!");
+                    return;
+                }
+                info("Deposit data successfully verified! 🎉");
+            });
+            return credentials;
+        }).then((credentials) => {
             info("Creating keystores...");
             return createKeystores(credentials, keygenOptions.password);
         }).then(async (keystores) => {
-            info("Creating keystores...");
+            info("Saving keystores...");
             await saveSigningKeystores(keystores, keygenOptions.storagePath);
             info("Keystores saved successfully!");
 
