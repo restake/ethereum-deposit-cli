@@ -9,4 +9,4 @@ export const keygenOptionsFixture: KeygenOptions = {
     startIndex: 0,
     storagePath: "./storage",
     withdrawalAddress: "0x05474dD4248E67EcCA048E44a500ACa44D434f95",
-};
+} as const;
