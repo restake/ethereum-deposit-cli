@@ -4,7 +4,7 @@ import { Command, ValidationError } from "cliffy/command/mod.ts";
 import { ALLOWED_NETWORKS, getOverviewTable, promptConfirm, promptMnemonic, promptPassword } from "./mod.ts";
 import { ALLOWED_LANGUAGES } from "../mnemonic/mod.ts";
 
-import { generateCredentials, saveSigningKeystores, verifySigningKeystores } from "../../../keygen/mod.ts";
+import { createKeystores, generateCredentials, saveSigningKeystores, verifySigningKeystores } from "../../../keygen/mod.ts";
 import { error, info } from "../../utils/mod.ts";
 
 export const command = new Command()
@@ -42,11 +42,13 @@ export const command = new Command()
         getOverviewTable(keygenOptions).then(promptConfirm).then(() => {
             info("Generating validator credentials...");
             return generateCredentials(keygenOptions);
-        }).then((keystores) => {
-            info(`${keystores.length} credentials successfully generated!`);
-
-            info("Saving keystores...");
-            saveSigningKeystores(keystores, keygenOptions.storagePath);
+        }).then((credentials) => {
+            info(`${credentials.length} credentials successfully generated!`);
+            info("Creating keystores...");
+            return createKeystores(credentials, keygenOptions.password);
+        }).then(async (keystores) => {
+            info("Creating keystores...");
+            await saveSigningKeystores(keystores, keygenOptions.storagePath);
             info("Keystores saved successfully!");
 
             info("Verifying keystores...");

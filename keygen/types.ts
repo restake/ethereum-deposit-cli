@@ -1,3 +1,5 @@
+import { EthereumDepositData } from "ethereum-deposit";
+
 export type KeygenOptions = {
     mnemonic: string;
     password: string;
@@ -7,4 +9,8 @@ export type KeygenOptions = {
     withdrawalAddress: string;
     startIndex: number;
     storagePath: string;
+};
+
+export type DepositData = EthereumDepositData & {
+    amount: number;
 };
