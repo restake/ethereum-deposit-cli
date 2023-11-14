@@ -31,7 +31,7 @@ Deno.test("Keystore", async (t) => {
 
         const keystores = await createKeystores(credentialsFixture, keystorePassword);
 
-        assertRejects(
+        await assertRejects(
             () => saveSigningKeystores(keystores, storagePath),
             Error,
             "Unable to save signing keystores",
@@ -47,7 +47,7 @@ Deno.test("Keystore", async (t) => {
 
         await Deno.remove(`${storagePath}/${savedKeystores[0].fileName}`);
 
-        assertRejects(
+        await assertRejects(
             () => verifySigningKeystores(storagePath, savedKeystores, keystorePassword),
             Error,
             `Unable to read signing keystore: ${savedKeystores[0].fileName}`,
