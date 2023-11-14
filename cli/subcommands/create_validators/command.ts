@@ -46,38 +46,33 @@ export const command = new Command()
             ...options,
         };
         // Clear the screen and show an overview for the user to confirm.
-        getOverviewTable(keygenOptions).then(promptConfirm).then(() => {
+        const credentials = await getOverviewTable(keygenOptions).then(promptConfirm).then(() => {
             info("Generating validator credentials...");
             return generateCredentials(keygenOptions);
-        }).then(async (credentials) => {
-            info(`${credentials.length} credentials successfully generated!`);
-
-            info("Creating deposit data...");
-            const { depositData, fileName } = await saveDepositData(credentials, keygenOptions.storagePath);
-
-            verifyDepositData(keygenOptions.storagePath, fileName, depositData).then((verified) => {
-                if (!verified) {
-                    error("Deposit data verification failed!");
-                    return;
-                }
-                info("Deposit data successfully verified! 🎉");
-            });
-            return credentials;
-        }).then((credentials) => {
-            info("Creating keystores...");
-            return createKeystores(credentials, keygenOptions.password);
-        }).then(async (keystores) => {
-            info("Saving keystores...");
-            await saveSigningKeystores(keystores, keygenOptions.storagePath);
-            info("Keystores saved successfully!");
-
-            info("Verifying keystores...");
-            verifySigningKeystores(keygenOptions.storagePath, keygenOptions.password).then((verified) => {
-                if (!verified) {
-                    error("Keystores verification failed!");
-                    return;
-                }
-                info("Keystores successfully verified! 🎉");
-            });
         });
+        info(`${credentials.length} credentials successfully generated!`);
+
+        info("Saving deposit data...");
+        const { depositData, fileName } = await saveDepositData(credentials, keygenOptions.storagePath);
+        info("Deposit data saved successfully!");
+
+        info("Verifying deposit data...");
+        if (!await verifyDepositData(keygenOptions.storagePath, fileName, depositData)) {
+            error("Deposit data verification failed!");
+            return Deno.exit(1);
+        }
+        info("Deposit data successfully verified! 🎉");
+
+        info("Creating keystores...");
+        const keystores = await createKeystores(credentials, keygenOptions.password);
+        info("Saving keystores...");
+        await saveSigningKeystores(keystores, keygenOptions.storagePath);
+        info("Keystores saved successfully!");
+
+        info("Verifying keystores...");
+        if (!await verifySigningKeystores(keygenOptions.storagePath, keygenOptions.password)) {
+            error("Keystores verification failed!");
+            return Deno.exit(1);
+        }
+        info("Keystores successfully verified! 🎉");
     });
