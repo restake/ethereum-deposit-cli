@@ -1,7 +1,7 @@
 import { Credential, CredentialList } from "ethereum-deposit";
 import { resolve } from "$std/path/mod.ts";
 
-import { getSigningKeyPath } from "./mod.ts";
+import { getSigningKeyPath, SavedKeystore } from "./mod.ts";
 import { createKeystore, Keystore, verifyPassword } from "../keystore/mod.ts";
 
 export const createKeystores = async (credentials: CredentialList, password: string) => {
@@ -24,30 +24,49 @@ const getEncryptedSigningKeystore = async (credential: Credential, password: str
     );
 };
 
-export const saveSigningKeystores = async (keystores: Keystore[], storagePath: string): Promise<void> => {
+export const saveSigningKeystores = async (keystores: Keystore[], storagePath: string): Promise<SavedKeystore[]> => {
+    const savedKeystores: SavedKeystore[] = [];
     const timestamp = Math.floor(Date.now() / 1000);
 
-    await Promise.all(keystores.map(async (keystore) => {
-        const filename = `keystore-${keystore.path.replace(/\//g, "-")}-${timestamp}.json`;
-        return await Deno.writeTextFile(
-            `${resolve(storagePath)}/${filename}`,
-            JSON.stringify(
-                keystore,
-            ),
-        );
-    }));
+    try {
+        await Promise.all(keystores.map(async (keystore) => {
+            const fileName = `keystore-${keystore.path.replace(/\//g, "-")}-${timestamp}.json`;
+            try {
+                await Deno.writeTextFile(
+                    `${resolve(storagePath)}/${fileName}`,
+                    JSON.stringify(
+                        keystore,
+                    ),
+                );
+                savedKeystores.push({ fileName, keystore });
+            } catch (e) {
+                throw new Error(`Keystore saving failed: ${fileName}`, {
+                    cause: e,
+                });
+            }
+        }));
+
+        return savedKeystores;
+    } catch (e) {
+        throw new Error("Unable to save signing keystores", {
+            cause: e,
+        });
+    }
 };
 
-export const verifySigningKeystores = async (storagePath: string, password: string): Promise<boolean> => {
-    const resolvedPath = resolve(storagePath);
-    const keystoreFiles = Deno.readDir(resolvedPath);
-
-    for await (const keystoreFile of keystoreFiles) {
-        if (keystoreFile.isFile && keystoreFile.name.startsWith("keystore-m-") && keystoreFile.name.endsWith(".json")) {
-            const keystore = JSON.parse(await Deno.readTextFile(`${resolvedPath}/${keystoreFile.name}`));
-            if (!await verifyPassword(keystore, password)) {
-                return false;
-            }
+export const verifySigningKeystores = async (storagePath: string, savedKeystores: SavedKeystore[], password: string): Promise<boolean> => {
+    for (const savedKeystore of savedKeystores) {
+        let rawKeystoreData: string;
+        try {
+            rawKeystoreData = await Deno.readTextFile(`${resolve(storagePath)}/${savedKeystore.fileName}`);
+        } catch (e) {
+            throw new Error(`Unable to read signing keystore: ${savedKeystore.fileName}`, {
+                cause: e,
+            });
+        }
+        const parsedKeystoreData = JSON.parse(rawKeystoreData) as Keystore;
+        if (!await verifyPassword(parsedKeystoreData, password)) {
+            return false;
         }
     }
 

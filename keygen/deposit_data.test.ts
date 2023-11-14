@@ -17,8 +17,8 @@ Deno.test("DepositData", async (t) => {
         assertEquals(await verifyDepositData(keygenOptionsFixture.storagePath, fileName, depositData), true);
     });
 
-    await t.step("Should throw an error when unable to save deposit data file", () => {
-        assertRejects(
+    await t.step("Should throw an error when unable to save deposit data file", async () => {
+        await assertRejects(
             () => saveDepositData(credentialsFixture, "/invalid/path/to/storage"),
             Error,
             "Unable to save deposit data file",
@@ -29,7 +29,7 @@ Deno.test("DepositData", async (t) => {
         const { depositData, fileName } = await saveDepositData(credentialsFixture, keygenOptionsFixture.storagePath);
         await Deno.remove(`${resolve(keygenOptionsFixture.storagePath)}/${fileName}`);
 
-        assertRejects(
+        await assertRejects(
             () => verifyDepositData(keygenOptionsFixture.storagePath, fileName, depositData),
             Error,
             "Unable to read deposit data file",

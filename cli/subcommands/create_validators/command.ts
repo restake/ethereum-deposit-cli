@@ -66,11 +66,11 @@ export const command = new Command()
         info("Creating keystores...");
         const keystores = await createKeystores(credentials, keygenOptions.password);
         info("Saving keystores...");
-        await saveSigningKeystores(keystores, keygenOptions.storagePath);
+        const savedKeystores = await saveSigningKeystores(keystores, keygenOptions.storagePath);
         info("Keystores saved successfully!");
 
         info("Verifying keystores...");
-        if (!await verifySigningKeystores(keygenOptions.storagePath, keygenOptions.password)) {
+        if (!await verifySigningKeystores(keygenOptions.storagePath, savedKeystores, keygenOptions.password)) {
             error("Keystores verification failed!");
             return Deno.exit(1);
         }
