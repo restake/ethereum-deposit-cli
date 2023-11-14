@@ -14,3 +14,8 @@ export type KeygenOptions = {
 export type DepositData = EthereumDepositData & {
     amount: number;
 };
+
+export type SavedDepositData = {
+    depositData: DepositData[];
+    fileName: string;
+};
