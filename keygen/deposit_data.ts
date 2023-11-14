@@ -46,7 +46,7 @@ export const verifyDepositData = async (storagePath: string, fileName: string, d
     }
     const parsedDepositData = JSON.parse(rawDepositData) as DepositData[];
 
-    return parsedDepositData.every((depositDatum, index) => {
-        return depositDatum.signature === depositData[index].signature;
+    return depositData.every((depositDatum, index) => {
+        return depositDatum.signature === parsedDepositData[index].signature;
     });
 };
