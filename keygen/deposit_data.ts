@@ -36,15 +36,15 @@ export const saveDepositData = async (credentials: CredentialList, storagePath: 
 };
 
 export const verifyDepositData = async (storagePath: string, fileName: string, depositData: DepositData[]): Promise<boolean> => {
-    let depositDataFile: Uint8Array;
+    let rawDepositData: string;
     try {
-        depositDataFile = await Deno.readFile(`${resolve(storagePath)}/${fileName}`);
+        rawDepositData = await Deno.readTextFile(`${resolve(storagePath)}/${fileName}`);
     } catch (e) {
         throw new Error("Unable to read deposit data file", {
             cause: e,
         });
     }
-    const parsedDepositData = JSON.parse(new TextDecoder().decode(depositDataFile)) as DepositData[];
+    const parsedDepositData = JSON.parse(rawDepositData) as DepositData[];
 
     return parsedDepositData.every((depositDatum, index) => {
         return depositDatum.signature === depositData[index].signature;
