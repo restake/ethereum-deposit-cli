@@ -1,6 +1,6 @@
 import { CredentialList } from "ethereum-deposit";
 
-import { DepositData, SavedDepositData } from "./mod.ts";
+import { DepositData, LAUNCHPAD_COMPATIBILITY_VERSION, SavedDepositData } from "./mod.ts";
 import { resolve } from "$std/path/mod.ts";
 
 export const getDepositData = (credentials: CredentialList): DepositData[] => {
@@ -8,6 +8,7 @@ export const getDepositData = (credentials: CredentialList): DepositData[] => {
         ({
             ...credential.depositData,
             amount: credential.amount,
+            deposit_cli_version: LAUNCHPAD_COMPATIBILITY_VERSION,
         }) as DepositData
     ));
 };
