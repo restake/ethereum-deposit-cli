@@ -7,7 +7,8 @@
         "deposit_message_root": "3e2a413a4892d936421047c4a8078f23d7430ce12a2da3d9a8f91a9939e87c2d",
         "deposit_data_root": "9b1075320fe68692ea283fc23646b6161745216f4b8d78f33e16c66d758b3c7d",
         "fork_version": "00000000",
-        "network_name": "mainnet"
+        "network_name": "mainnet",
+        "deposit_cli_version": "2.7.0"
     },
     {
         "pubkey": "996cf319007837edfdaf594a16ded423b1c80d46ea33e963a34131f5b4af0e8cb486c674d00d4f38fa9c0c5d5e5e3769",
@@ -17,7 +18,8 @@
         "deposit_message_root": "989a2b61a5348a6d45b47ab8f5caa6487e6e75275cf9349145922c44fb451c55",
         "deposit_data_root": "2b067fb4674d9712a42581d00331384b1b6c1164d12ca1de6a6d99ad5e52875d",
         "fork_version": "00000000",
-        "network_name": "mainnet"
+        "network_name": "mainnet",
+        "deposit_cli_version": "2.7.0"
     },
     {
         "pubkey": "80c7b6724bfb879fc51535fd569ce47e6952e492b888d65d0acac5807715f5c84b6a103d33ae4fe7c221ed1accd339cc",
@@ -27,6 +29,7 @@
         "deposit_message_root": "ba4dfdd50f43d90c0d021163d2a4f9bee5081867f35890e19651181ab2a9dcbc",
         "deposit_data_root": "371850440006927a943ae4d8f8169f3ab384d7bf3e65cc950ff4cd7e2d34318a",
         "fork_version": "00000000",
-        "network_name": "mainnet"
+        "network_name": "mainnet",
+        "deposit_cli_version": "2.7.0"
     }
 ]
