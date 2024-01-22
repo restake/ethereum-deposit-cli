@@ -5,7 +5,7 @@ import { validatorsCommand } from "../cli/subcommands/create_validators/mod.ts";
 new Command()
     .name("ethereum-deposit-cli")
     .description("Secure key generation for deposits")
-    .version("0.0.3")
+    .version("0.0.4")
     .action(function () {
         this.showHelp();
     })
